@@ -1,0 +1,83 @@
+{
+    "items":[
+           {"fName":"idly",
+            "item":[
+                {
+                    "name" : "hari om",
+                    "price": "20"
+                },
+                {
+                    "name" : "shiva",
+                    "price": "25"
+                },
+                {
+                    "name" : "om sai ram",
+                    "price": "25"
+                },
+                {
+                    "name":"ram",
+                    "price":"25"
+                },
+                {
+                    "name" : "ramesh",
+                    "price": "25"
+                },
+                {
+                    "name" : "purana bazar",
+                    "price": "20"
+                }
+            ]},
+            { "fName":"bonda",
+            "item":[
+                {
+                    "name" : "hari om",
+                    "price": "20"
+                },
+                {
+                    "name" : "shiva",
+                    "price": "25"
+                },
+                {
+                    "name" : "om sai ram",
+                    "price": "25"
+                },
+                {
+                    "name":"ram",
+                    "price":"25"
+                },
+                {
+                    "name" : "ramesh",
+                    "price": "25"
+                },
+                {
+                    "name" : "purana bazar",
+                    "price": "20"
+                }
+            ]},
+            { "fName":"dosa",
+            "item":[
+                
+                {
+                    "name" : "shiva",
+                    "price": "30"
+                },
+                {
+                    "name" : "om sai ram",
+                    "price": "30"
+                },
+                {
+                    "name":"ram",
+                    "price":"30"
+                },
+                {
+                    "name" : "ramesh",
+                    "price": "40"
+                },
+                {
+                    "name" : "purana bazar",
+                    "price": "20"
+                }
+            ]}
+        
+    ]
+}
