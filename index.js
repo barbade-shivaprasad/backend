@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const cors = require('cors');
 var cookieParser = require('cookie-parser');
 const socketClient = require('socket.io-client');
+const serverless = require('serverless-http');
 
 let server = http.createServer(app);
 let server1 = http.createServer(app);
@@ -751,7 +752,7 @@ let port = process.env.PORT || '5000';
 server.listen(port)
 
 
-
+module.exports.handler = serverless(app);
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
