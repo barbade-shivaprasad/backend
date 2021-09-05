@@ -660,12 +660,18 @@ app.post("/setworkstatus", verify1, (req, res) => {
   );
 });
 
+app.get("/",(req,res)=>{
+
+  res.send("Helloo..its working")
+})
+
+
 //SOCKET.IO sPECIFIC STUFF
 
 
 let io = require('socket.io')(server,{
     cors:{
-      origin:['https://food-delivery-a1206.web.app/','https://food-delivery-a1206.web.app/']
+      origin:['*']
     }
   });
   io.on('connection', (socket) => { 
