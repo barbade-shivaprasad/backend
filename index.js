@@ -752,6 +752,7 @@ let port = process.env.PORT || '5000';
 server.listen(port)
 
 
+module.exports = app;
 module.exports.handler = serverless(app);
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
