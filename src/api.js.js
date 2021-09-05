@@ -9,6 +9,8 @@ var cookieParser = require('cookie-parser');
 const socketClient = require('socket.io-client');
 const serverless = require('serverless-http');
 
+let router = express.Router();
+
 let server = http.createServer(app);
 let server1 = http.createServer(app);
 let secret = "asdbalkjdjkbaboiaiduaiodfdbfiuodfsndks";
@@ -17,7 +19,7 @@ let secret = "asdbalkjdjkbaboiaiduaiodfdbfiuodfsndks";
 if(process.env.NODE_ENV == "production"){
   app.use(express.static("client/build"));
   const path = require("path")
-  app.get("*",(req,res)=>{
+  router.get("*",(req,res)=>{
     res.sendFile(path.resolve("client","build","index.html"));
   })
 }
@@ -139,7 +141,7 @@ const verify1 = (req, res, next) => {
 };
 
 //to check authenticated or not
-app.post("/authenticate", function (req, res) {
+router.post("/authenticate", function (req, res) {
   if (req.cookies.token != null) {
     let decodeToken = jwt.verify(req.cookies.token, secret);
 
@@ -198,7 +200,7 @@ app.post("/authenticate", function (req, res) {
 
 
 //function for signup
-app.post("/signup", function (req, res) {
+router.post("/signup", function (req, res) {
   let flag = 0,
     flag1 = 0;
 
@@ -229,7 +231,7 @@ app.post("/signup", function (req, res) {
   });
 });
 
-app.post("/add-deliveryboy", function (req, res) {
+router.post("/add-deliveryboy", function (req, res) {
   let flag = 0,
     flag1 = 0;
 
@@ -259,7 +261,7 @@ app.post("/add-deliveryboy", function (req, res) {
   );
 });
 
-app.post("/editprofile", verify1, function (req, res) {
+router.post("/editprofile", verify1, function (req, res) {
   let flag = 0,
     id = 0,
     i = "i";
@@ -309,7 +311,7 @@ let details = {};
 let bag = [];
 
 //for login
-app.post("/login", function (req, res) {
+router.post("/login", function (req, res) {
   let flag = 0;
   details = {};
 
@@ -373,7 +375,7 @@ app.post("/login", function (req, res) {
 });
 
 //for admins
-app.post("/admin", function (req, res) {
+router.post("/admin", function (req, res) {
   let flag = 0;
   details = {};
   mongoData1.findOne(
@@ -404,7 +406,7 @@ app.post("/admin", function (req, res) {
 });
 
 //for main content to load
-app.post("/main", verify1, function (req, res) {
+router.post("/main", verify1, function (req, res) {
   details = {};
 
   mongoData.findOne({ _id: req.body.id }, (err, items) => {
@@ -421,7 +423,7 @@ app.post("/main", verify1, function (req, res) {
     }
   });
 });
-app.post("/adminmain", verify1, function (req, res) {
+router.post("/adminmain", verify1, function (req, res) {
   details = {};
 
   mongoData1.findOne({ _id: req.body.id }, (err, admins) => {
@@ -451,7 +453,7 @@ app.post("/adminmain", verify1, function (req, res) {
     }
   });
 });
-app.post("/deliverymain", verify1, function (req, res) {
+router.post("/deliverymain", verify1, function (req, res) {
   details = {};
 
   mongoData3.findOne({ _id: req.body.id }, (err, deliveryBoys) => {
@@ -488,7 +490,7 @@ app.post("/deliverymain", verify1, function (req, res) {
 });
 
 let key = [];
-app.post("/bag", verify1, function (req, res) {
+router.post("/bag", verify1, function (req, res) {
   if (req.body.bag.length != 0) {
     mongoData.findOne({ _id: req.body.id }, (err, items) => {
       if (err) console.log(err);
@@ -510,7 +512,7 @@ app.post("/bag", verify1, function (req, res) {
   }
 });
 
-app.post("/setdeliveryboy", verify1, (req, res) => {
+router.post("/setdeliveryboy", verify1, (req, res) => {
   mongoData2.updateOne(
     { _id: req.body._id },
     { deliveryBoy: req.body.dName },
@@ -568,7 +570,7 @@ app.post("/setdeliveryboy", verify1, (req, res) => {
   });
 });
 
-app.post("/setstatus", verify1, (req, res) => {
+router.post("/setstatus", verify1, (req, res) => {
   let id = mongoose.Types.ObjectId(req.body.orderId);
   let status = req.body.status;
   mongoData3
@@ -606,7 +608,7 @@ app.post("/setstatus", verify1, (req, res) => {
   res.send("hello");
 });
 
-app.post("/rejectOrder", verify1, (req, res) => {
+router.post("/rejectOrder", verify1, (req, res) => {
   mongoData2.updateOne(
     { _id: req.body.orderId },
     { status: "rejected", deliveryBoy: "none" },
@@ -646,7 +648,7 @@ app.post("/rejectOrder", verify1, (req, res) => {
   res.send("successfully rejected");
 });
 
-app.post("/setworkstatus", verify1, (req, res) => {
+router.post("/setworkstatus", verify1, (req, res) => {
   mongoData3.updateOne(
     { _id: req.body.deliveryId },
     { status: req.body.status },
@@ -661,7 +663,7 @@ app.post("/setworkstatus", verify1, (req, res) => {
   );
 });
 
-app.get("/",(req,res)=>{
+router.get("/",(req,res)=>{
 
   res.send("Helloo..its working")
 })
@@ -742,10 +744,11 @@ let SERVER = 'https://socketserver-ofood.herokuapp.com';
     });
 
 //to logout or delete cookie
-app.get("/deleteCookie", (req, res) => {
+router.get("/deleteCookie", (req, res) => {
   res.clearCookie("token").send("deleted");
 });
 
+app.use('./netlify/functions/api',router);
 
 
 let port = process.env.PORT || '5000';
